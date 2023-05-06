@@ -25,13 +25,13 @@ public class SidebarClt extends Form {
 
         Button produitsButton = new Button("Produits");
         produitsButton.addActionListener(e -> {
-//            new AjoutAuPanier().show();
+            new AjoutAuPanier().show();
         });
         content.add(produitsButton);
 
         Button panierButton = new Button("Panier");
         panierButton.addActionListener(e -> {
-//            new LignePaniersUI(this).show();
+            new LignePaniersUI(this).show();
         });
         content.add(panierButton);
         
@@ -49,7 +49,7 @@ public class SidebarClt extends Form {
 
         Button factureButton = new Button("Factures");
         factureButton.addActionListener(e -> {
-//            new FacturesCltUI(this).show();
+            new FacturesCltUI(this).show();
         });
         content.add(factureButton);
 
