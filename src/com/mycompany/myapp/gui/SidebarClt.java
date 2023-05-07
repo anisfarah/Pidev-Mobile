@@ -23,33 +23,33 @@ public class SidebarClt extends Form {
 
         Container content = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
-        Button produitsButton = new Button("Produits");
-        produitsButton.addActionListener(e -> {
-            new AjoutAuPanier().show();
-        });
-        content.add(produitsButton);
-
-        Button panierButton = new Button("Panier");
-        panierButton.addActionListener(e -> {
-            new LignePaniersUI(this).show();
-        });
-        content.add(panierButton);
+//        Button produitsButton = new Button("Produits");
+//        produitsButton.addActionListener(e -> {
+//            new AjoutAuPanier().show();
+//        });
+//        content.add(produitsButton);
+//
+//        Button panierButton = new Button("Panier");
+//        panierButton.addActionListener(e -> {
+//            new LignePaniersUI(this).show();
+//        });
+//        content.add(panierButton);
         
          Button eventsButton = new Button("Events");
         eventsButton.addActionListener(e -> {
-//            new LignePaniersUI(this).show();
+        new ListEventsAdminForm(this).show();
         });
         content.add(eventsButton);
         
          Button recButton = new Button("Reclamations");
-        recButton.addActionListener(e -> {
-//            new LignePaniersUI(this).show();
-        });
+//        recButton.addActionListener(e -> {
+//           new ListReclamationForm().show();
+//        });
         content.add(recButton);
 
         Button factureButton = new Button("Factures");
         factureButton.addActionListener(e -> {
-            new FacturesCltUI(this).show();
+//            new FacturesCltUI(this).show();
         });
         content.add(factureButton);
 
