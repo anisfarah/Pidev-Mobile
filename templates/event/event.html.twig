@@ -1,0 +1,166 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}Event
+{% endblock %}
+{% block body %}
+	<style>
+		.search-container {
+			position: relative;
+		}
+		form[action='/events/search'] {
+			display: flex;
+			align-items: left;
+			justify-content: left;
+		}
+
+		form[action='/events/search'] input[type='text'] {
+			padding: 10px;
+			border: none;
+			border-radius: 4px;
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+			transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+		}
+
+		form[action='/events/search'] input[type='text']:focus {
+			border-color: #66afe9;
+			outline: 1;
+			box-shadow: 1 0 0 rgba(102, 175, 233, 0.6);
+		}
+
+		form[action='/events/search'] button[type='submit'] {
+			padding: 10px;
+			margin-left: 4px;
+			background-color: #428bca;
+			border: none;
+			border-radius: 4px;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		form[action='/events/search'] button[type='submit']:hover {
+			background-color: green;
+		}
+		.gridd {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			grid-gap: 20px;
+		}
+
+		.pagination {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 20px;
+		}
+
+		.pagination a {
+			display: block;
+			margin: 0 5px;
+			padding: 10px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			color: #333;
+			text-decoration: none;
+			transition: background-color 0.3s ease;
+		}
+
+		.pagination a:hover {
+			background-color: #ddd;
+		}
+
+		.pagination .active {
+			background-color: #007bff;
+			color: #fff;
+			border-color: #007bff;
+		}
+
+		.pagination .disabled {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+		.pagination li:hover {
+			background-color: #007bff;
+			color: #fff;
+			border-color: #007bff;
+		}
+
+		.pagination li:hover a {
+			color: #fff;
+		}
+		.carousel-item {
+			text-align: center;
+		}
+
+		.carousel-item img {
+			width: 100%;
+			height: auto;
+			object-fit: cover;
+			object-position: center;
+		}
+	</style>
+
+	
+</div>
+<section id="portfolio" class="portfolio">
+<div class="collection-header">
+			<div class="collection-hero">
+				<div class="collection-hero__image"><img class="blur-up lazyload" data-src="{{ asset('assets/front/images/books.jpg') }}" src="{{ asset('assets/front/images/books.jpg') }}" alt="Women" title="Women"/></div>
+				<div class="collection-hero__title-wrapper">
+					<h1 class="collection-hero__title page-width">Nos produits</h1>
+				</div>
+			</div>
+		</div>
+		<br>
+	<div class="container">
+	
+
+		<div class="section-title" data-aos="fade-right" style="display: flex; justify-content: space-between; align-items: center;">
+	<form action="{{ path('event_search') }}">
+		<input type="text" name="q" placeholder="Search for events">
+		<button type="submit">Search</button>
+	</form>
+									<a href="{{ path('myfavorites') }}" class="btn btn-light btn-transparent" value="&#x2b50; Favoris">Favoris</a>
+
+	
+</div>
+
+		
+		
+		<br><br>
+		<div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+			{% for event in e %}
+				<div class="col-lg-4 col-md-6 portfolio-item filter-web filter-{{ event.idTheme }}">
+					<div class="portfolio-wrap">
+						<img src="{{ asset(event.image) }}"  style="height:100px" class="img-fluid" alt="">
+						<div class="portfolio-info">
+							<h4>{{event.nomEvent}}
+							</h4>
+							<p>{{event.descEvent}}</p>
+							<div class="portfolio-links">
+									<a href="{{ path('app_details_show' ,{'idEvent': event.idEvent}) }}"  class="btn btn-light btn-transparent">
+										details
+										{#<i class="bx bx-link"></i>#}
+									</a>
+								<a href="{{ path('add_to_favorites', {'idEvent': event.idEvent}) }}" class="btn btn-light btn-transparent" value="&#x2b50; favorited">⭐ Favorited</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+
+
+			<br>
+
+
+		</div>
+
+	</div>
+	<br>
+	<br>
+	<br>
+</section>
+<!-- End Portfolio Section -->
+{# <div class="pagination">
+	{{ knp_pagination_render(events) }}
+</div> #}{% endblock %}

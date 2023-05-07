@@ -1,0 +1,35 @@
+{% extends 'baseback.html.twig' %}
+
+{% block title %}
+	Books Page
+{% endblock %}
+
+
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('styles.css')}}">
+
+
+{% endblock %}
+{% block body %}
+{% block content  %}
+    <div class="content">
+
+<div class="container0">
+
+  <h1 style="align:center;color:black">Repondre Reclamation</h1>
+  <div class="row">
+    {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+
+    <label for="subject">Reponse :</label>
+    {{ form_widget(form.contenu , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Contenu', 'size':'200'}} ) }}
+</div>
+
+    <input type="submit" value="Envoyer" style="color:blue">
+                    {{ form_end(form) }}
+
+</div>
+    <a href="{{ path('app_reclamation_index') }}" style="float:center">back to list</a>
+</div>
+{% endblock %}
+{% endblock %}

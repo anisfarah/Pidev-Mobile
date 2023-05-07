@@ -1,0 +1,50 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block body %}
+
+    <h1>Statistiques</h1>
+    <div class="text-right">
+        <a class="btn btn-primary btn-add" style="width:190px" href="{{ path('app_event_index') }}">
+            <i class="feather-corner-up-left "></i>
+            RETOUR
+        </a>
+    </div>
+
+    <canvas id="myChart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+type: 'bar',
+data: {
+labels: ['Participants'],
+datasets: [
+{
+label: 'Nombre d"Participants',
+data: [{{ statistiquess }}],
+backgroundColor: [
+'rgba(75, 192, 192, 0.2)',
+],
+borderColor: [
+'rgba(75, 192, 192, 1)',
+],
+
+borderWidth: 1
+}
+]
+},
+options: {
+scales: {
+yAxes: [
+{
+ticks: {
+beginAtZero: true
+}
+}
+]
+}
+}
+});
+    </script>
+{% endblock %}

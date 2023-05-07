@@ -1,0 +1,263 @@
+{% extends 'baseFront.html.twig' %}
+{% block title %}
+	Cart Page
+{% endblock %}
+{% block body %}
+	<div
+		id="page-content">
+		<!--Page Title-->
+		<div class="page section-header text-center">
+			<div class="page-title">
+				<div class="wrapper">
+					<h1 class="page-width">Votre panier</h1>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 main-col">
+					<div class="alert alert-success text-uppercase" role="alert">
+						<i class="fas fa-shopping-cart"></i>
+						&nbsp;<strong>Bonjour!</strong>
+						Voici le contenu de votre panier!
+					</div>
+					<form action="#" method="post" class="cart style2">
+						<table>
+							<thead class="cart__row cart__header">
+								<tr>
+									<th colspan="2" class="text-center">Produit</th>
+									<th class="text-center">Prix</th>
+									<th class="text-center">Quantite</th>
+									<th class="text-center">SousTotal</th>
+									<th class="text-center">&nbsp;</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% if data is empty %}
+									<tr>
+										<td colspan="6" class="text-center">Le panier est vide pour le moment.</td>
+									</tr>
+								{% else %}
+									{% for item in data %}
+										<tr class="cart__row border-bottom line1 cart-flex border-top">
+											<td class="cart__image-wrapper cart-flex-item">
+												<a href="#"><img class="cart__image" src="{{ asset(item.image) }}" alt="{{ item.libelle}}"></a>
+											</td>
+											<td class="cart__meta small--text-left cart-flex-item">
+												<div class="list-view-item__title">
+													<a href="#">{{ item.libelle}}
+													</a>
+												</div>
+
+												<div class="cart__meta-text">
+													Auteur :
+													{{item.auteur.prenom}}
+													{{item.auteur.nom}}<br>
+													Categorie:
+													{{ item.categorie}}<br>Langue :
+													{% if item.langue == 'Français' %}
+														<span class="align-middle">{{item.langue}}</span>
+														<img src="{{ asset('assets/front/images/france.png') }}" alt="user-image" class="mr-1" height="12">
+													{% elseif item.langue == 'Arabe' %}
+														<span class="align-middle">{{item.langue}}</span>
+														<img src="{{ asset('assets/front/images/tunisia.png') }}" alt="user-image" class="mr-1" height="12">
+													{% else %}
+														<span class="align-middle">{{item.langue}}</span>
+														<img src="{{ asset('assets/front/images/united-kingdom.png') }}" alt="user-image" class="mr-1" height="12">
+													{% endif %}
+
+												</div>
+											</td>
+											<td class="cart__price-wrapper cart-flex-item text-center">
+												{% if item.getCodePromo() != null %}
+												<span class="money">{{ item.prix * (1 - item.getCodePromo().reduction/100)}}
+													DT</span>
+													{% else %}
+													<span class="money">{{ item.prix }}
+													DT</span>
+													{% endif %}
+											</td>
+											<td class="cart__update-wrapper cart-flex-item text-right">
+												<div class="cart__qty text-center">
+													<div class="qtyField">
+														<a class="qtyBtn minus">
+															<i class="icon icon-minus"></i>
+														</a>
+														{% if item.getCodePromo() != null %}
+														<input class="cart__qty-input qty" type="text" name="updates[]" data-id="{{ item.idLigne }}" data-price="{{ item.prix * (1 - item.getCodePromo().reduction/100) }}" id="qty" value="{{ item.qte}}">
+														{% else %}
+														<input class="cart__qty-input qty" type="text" name="updates[]" data-id="{{ item.idLigne }}" data-price="{{ item.prix  }}" id="qty" value="{{ item.qte}}">
+
+														{% endif %}														<a class="qtyBtn plus">
+															<i class="icon icon-plus"></i>
+														</a>
+													</div>
+												</div>
+											</td>
+											<td class="text-center small--hide cart-price">
+												<div>
+													<span class="money" id="total-price-{{ item.idLigne }}">{{ item.sousTotal }}DT</span>
+												</div>
+											</td>
+
+											<td class="text-left small--hide">
+												<a data-toggle="modal" data-target="#info-alert-modal1-{{item.idLigne}}" class="btn btn--secondary cart__remove" title="Supprimer">
+													<i class="icon icon anm anm-times-l"></i>
+												</a>
+												<div id="info-alert-modal1-{{item.idLigne}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+													<div class="modal-dialog modal-sm">
+														<div class="modal-content">
+															<div class="modal-body p-4">
+																<div class="text-center">
+																	<i class="dripicons-information h1 text-info"></i>
+																	<h4 class="mt-2">Confirmation</h4>
+																	<p class="mt-3">Êtes-vous sûr de vouloir supprimer le livre
+																		« {{item.libelle}} »
+																		de votre panier?</p>
+																	<a href="{{ path('app_lignepanier_delete', {'idLigne': lignePanier.idLigne }) }}" id="delete-item-btn" class="btn btn-info my-2">Supprimer</a>
+																	<button type="button" class="btn btn-secondary my-2" data-dismiss="modal">Annuler</button>
+																</div>
+															</div>
+														</div>
+														<!-- /.modal-content -->
+													</div>
+													<!-- /.modal-dialog -->
+												</div>
+											</td>
+										</tr>
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="3" class="text-left">
+									<a href="/panier" class="btn btn-secondary btn--small cart-continue">Continuer vos achats</a>
+								</td>
+								<td colspan="3" class="text-right">
+									<a href="#" data-toggle="modal" data-target="#info-alert-modal" class="btn btn-secondary btn--small small--hide" name="clear_cart">Vider Panier</a>
+									<div id="info-alert-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+										<div class="modal-dialog modal-sm">
+											<div class="modal-content">
+												<div class="modal-body p-4">
+													<div class="text-center">
+														<i class="dripicons-information h1 text-info"></i>
+														<h4 class="mt-2">Confirmation</h4>
+														<p class="mt-3">Êtes-vous sûr de vouloir vider votre panier ?</p>
+														<a href="{{ path('app_AllLignepanier_delete', {'id_panier': panier.idPanier }) }}" id="delete-item-btn1" class="btn btn-info my-2">Vider</a>
+														<button type="button" class="btn btn-secondary my-2" data-dismiss="modal">Annuler</button>
+													</div>
+												</div>
+											</div>
+											<!-- /.modal-content -->
+										</div>
+										<!-- /.modal-dialog -->
+									</div>
+
+									<a href="{{ path('app_facture', {'id_panier': panier.idPanier }) }}" class="btn btn-secondary btn--small small--hide" name="clear_cart">Passer à la facture</a>
+
+
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</form>
+
+
+			</div>
+
+
+		</div>
+	</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script>
+	$(document).ready(function () {
+$('.qtyBtn.plus').click(function (e) {
+e.preventDefault();
+var idLigne = $(this).closest('.qtyField').find('.qty').data('id');
+$.ajax({
+url: '/ligne-panier/' + idLigne + '/plus',
+type: 'POST',
+dataType: 'json',
+success: function (response) { 
+var qteInput = $('input[data-id=' + idLigne + ']');
+qteInput.val(response.newQty);
+
+// mettre à jour le sous-total affiché dans la page
+var sousTotal = response.newQty * qteInput.data('price');
+$('#total-price-' + idLigne).text(sousTotal.toFixed(2) + 'DT');
+},
+error: function (jqXHR, textStatus, errorThrown) {
+console.error('Erreur lors de l\'incrémentation de la quantité: ' + textStatus);
+}
+});
+});
+
+$('.qtyBtn.minus').click(function (e) {
+e.preventDefault();
+var idLigne = $(this).closest('.qtyField').find('.qty').data('id');
+$.ajax({
+url: '/ligne-panier/' + idLigne + '/minus',
+type: 'POST',
+dataType: 'json',
+success: function (response) { // mettre à jour la quantité affichée dans la page
+var qteInput = $('input[data-id=' + idLigne + ']');
+qteInput.val(response.newQty);
+
+// mettre à jour le sous-total affiché dans la page
+var sousTotal = response.newQty * qteInput.data('price');
+$('#total-price-' + idLigne).text(sousTotal.toFixed(2) + 'DT');
+},
+error: function (jqXHR, textStatus, errorThrown) {
+console.error('Erreur lors de la décrémentation de la quantité: ' + textStatus);
+}
+});
+});
+});
+
+//bouton supprimer un produit du panier
+const deleteButtons = document.querySelectorAll('#delete-item-btn');
+deleteButtons.forEach(button => {
+  button.addEventListener('click', event => {
+    event.preventDefault();
+
+   Swal.fire({
+  title: 'Article supprimé !',
+  text: 'Votre article a été supprimé de votre panier.',
+  icon: 'warning',
+  iconHtml: '<i class="fas fa-times-circle"></i>',
+  showConfirmButton: false,
+  timer: 2000 // 2 secondes de délai
+}).then(() => {
+  window.location = event.target.href;
+});
+  });
+});
+
+//bouton vider panier
+const ViderButton = document.querySelector('#delete-item-btn1');
+  ViderButton.addEventListener('click', event => {
+    event.preventDefault();
+
+   Swal.fire({
+  title: 'Panier vidé !',
+  text: 'Votre panier a été vidé avec succès !',
+  icon: 'warning',
+  iconHtml: '<i class="fas fa-times-circle"></i>',
+  showConfirmButton: false,
+  timer: 2000 
+}).then(() => {
+  window.location = event.target.href;
+});
+  });
+
+
+
+</script>
+
+
+{% endblock %}

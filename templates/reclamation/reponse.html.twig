@@ -1,0 +1,40 @@
+{% extends 'basefront.html.twig' %}
+
+{% block title %}
+    Books Page
+{% endblock %}
+
+
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('styles.css')}}">
+
+
+{% endblock %}
+{% block body %}
+
+<div class="container">
+
+  <h1>Formulaire de contact</h1>
+  <div class="row">
+
+    <label for="subject">Votre Contenu :</label>
+    <textarea id="subject" name="subject" placeholder="Votre message" style="height:200px;width:100%" readonly>{{ reclamation.contenu }}</textarea>
+
+</div>
+  <div class="row">
+
+    <label for="subject">Reponse :</label>
+    {% if reponse is empty %}
+        <textarea id="subject" name="subject" placeholder="Votre message" style="height:200px;width:100%" readonly>Aucune réponse n'est affectée!</textarea>
+
+    {% else %}
+    <textarea id="subject" name="subject" placeholder="Votre message" style="height:200px;width:100%" readonly>{{reponse[0].contenu }}</textarea>
+    {% endif %}
+</div>
+
+    <a href="{{ path('app_reclamation_front') }}">back to list</a>
+
+</div>
+
+{% endblock %}

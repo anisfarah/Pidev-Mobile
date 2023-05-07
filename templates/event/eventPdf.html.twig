@@ -1,0 +1,55 @@
+{% block title %}Evenements{% endblock %}
+
+{% block content %}
+
+	<div class="page-wrapper" style="width: 919px;">
+		<div class="content container-fluid pb-0">
+			<div class="card">
+				<div class="col-md-12 col-12">
+					<nav aria-label="breadcrumb" class="page-breadcrumb">
+						<ol class="breadcrumb"></ol>
+					</nav>
+				</div>
+				<div class="content">
+					<div class="container-fluid">
+						<div class="row" style="justify-content: center;">
+							<div class="page-header">
+								<div class="row align-items-center">
+									<div class="col-md-12 d-flex justify-content-end"></div>
+								</div>
+							</div>
+						</div><br>
+						<div class="card">
+							<div class="card-body">
+								<table class="table datatable-basic dataTable no-footer" id="DataTables_Table_0" ="grid" aria-describedby="DataTables_Table_0_info">
+									<tbody>
+										<tr>
+											<th>NomEvent</th>
+											<td>{{ event.nomEvent }}</td>
+										</tr>
+										<tr>
+											<th>LieuEvent</th>
+											<td>{{ event.lieuEvent }}</td>
+										</tr>
+										<tr>
+											<th>DateEvent</th>
+											<td>{{ event.dateEvent ? event.dateEvent|date('Y-m-d') : '' }}</td>
+										</tr>
+										<tr>
+											<th>PrixEvent</th>
+											<td>{{ event.prixEvent }}</td>
+										</tr>
+										<tr>
+											<th>DescEvent</th>
+											<td>{{ event.descEvent }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

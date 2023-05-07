@@ -1,0 +1,76 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}
+	Books Page
+{% endblock %}
+
+
+
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+{% block content  %}
+
+<div class="container0">
+
+  <h1 style="float:center">Reclamation</h1>
+  <div class="row">
+   <div class="col-6">
+    <label for="fname">Nom & prénom</label>
+    <input type="text" id="fname" name="firstname" value="{{ util.nom }}  {{ util.prenom }}" readonly>
+    </div>
+
+      <div class="col-6">
+
+    <label for="sujet">Date :</label>
+    <input type="text" id="fname" name="firstname" value="{{ reclamation.dateRec ? reclamation.dateRec|date('Y-m-d') : '' }}" readonly>
+</div>
+</div>
+  <div class="row">
+   <div class="col-6">
+    <label for="emailAddress">Type :</label>
+    <input id="emailAddress" type="email" name="email" value="{{ type.type }}" readonly>
+    </div>  
+      <div class="col-6">
+    <label for="emailAddress">Etat :</label>
+    <input id="emailAddress" type="email" name="email" value="{{ reclamation.etat }}" readonly>      
+</div>
+</div>
+<div class="row">
+   <div class="col-8">
+    <label for="subject">Contenu :</label>
+    <textarea id="subject" name="subject" placeholder="Votre message" style="height:200px" readonly>{{ reclamation.contenu }}</textarea>
+</div>
+   <div class="col-4">
+   <br>
+   <br>
+<img src="{{asset(reclamation.img)}}"  height="150px" width="250px" alt="Votre image"> </div>
+</div>
+    
+    <a href="{{ path('app_reclamation_edit', {'idRec': reclamation.idRec}) }}" id="edit" style=" background-color: black;
+  color: white;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;float:right;">edit</a>
+  <a href="{{ path('app_reclamation_reponse', {'idRec': reclamation.idRec}) }}"style=" background-color: green;
+  color: white;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;float:right">Reponse</a>
+
+</div>
+
+    {# <a href="{{ path('app_reclamation_front') }}" style=" background-color: #f44336;
+  color: white;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;float:right;">back to list</a> #}
+
+
+    {{ include('reclamation/_delete_form.html.twig') }}
+
+{% endblock %}
+{% endblock %}

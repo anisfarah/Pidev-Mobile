@@ -1,0 +1,78 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}New Theme
+{% endblock %}
+
+{% block body %}
+
+	<style>
+		.help-block {
+			color: red;
+			padding-left: 25px;
+			position: relative;
+		}
+	</style>
+
+	<div class="page-wrapper">
+		<div class="content">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-body">
+							{{ form_start(form,{'attr': 
+       								 {'novalidate': 'novalidate'}}
+							) }}
+							<div class="row">
+
+								<div class="col-12">
+									<div class="mb-3">
+										<h4>Ajouter Theme</h4>
+									</div>
+								</div>
+
+								<div class="col-12 col-md-6 col-xl-4">
+									<div class="form-group local-forms">
+										<label>Nom_Theme
+											<span class="login-danger">*</span>
+										</label>
+										{{ form_widget(form.nomTheme, {attr:{'class':'form-control'}}) }}
+										<div class="help-block">
+											{{ form_errors(form.nomTheme) }}
+										</div>
+									</div>
+								</div>
+								<div class="col-12 col-md-6 col-xl-4">
+									<div class="form-group local-forms">
+										<label>Description
+											<span class="login-danger">*</span>
+										</label>
+										{{ form_widget(form.description, {attr:{'class':'form-control'}}) }}
+										<div class="help-block">
+											{{ form_errors(form.description) }}
+										</div>
+									</div>
+								</div>
+
+								<div class="col-12">
+									<div class="doctor-submit text-end">
+										<div class="text-right">
+											<button class="btn btn-primary btn-add" style="width:120px">
+												{{ button_label|default('Save') }}
+											</button>
+										</div>
+									</div>
+								</div>
+
+								&nbsp;
+
+								
+							</div>
+							{{ form_end(form) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

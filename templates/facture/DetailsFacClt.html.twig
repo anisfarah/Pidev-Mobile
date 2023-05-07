@@ -1,0 +1,116 @@
+{% extends 'baseFront.html.twig' %}
+{% block title %}
+	Mes factures
+{% endblock %}
+{% block body %}
+	<div id="page-content">
+		<div class="page section-header text-center">
+			<div class="page-title">
+				<div class="wrapper">
+					<h1 class="page-width">Détails Factures N°{{counter}}</h1>
+				</div>
+			</div>
+		</div>
+		<div class="container"></div>
+		<div class="col-12 col-sm-12 col-md-12 col-lg-12 main-col">
+			<hr>
+			<div class="productList">
+				<div class="toolbar">
+					<form id="sort-form" method="get" action="{{ path('details_factures', {'idFacture': facture.idFacture, 'counter': counter}) }}">
+
+						<div class="filters-toolbar-wrapper">
+							<div class="row">
+								<div class="col-4 col-md-4 col-lg-4 filters-toolbar__item collection-view-as d-flex justify-content-start align-items-center">
+									<a href="/MesFactures" title="Retour" class="back-link" style="text-decoration:none;margin-right: 50px;">
+										<i class="fa fa-arrow-left"></i>
+										Retour
+									</a>
+								</div>
+
+								<div class="col-4 col-md-4 col-lg-4 text-center filters-toolbar__item filters-toolbar__item--count d-flex justify-content-center align-items-center">
+									<span class="filters-toolbar__product-count">Affichage:
+										{{facture.lignefactures|length}}</span>
+								</div>
+								
+
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<!--End Toolbar-->
+				<div class="list-view-items grid--view-items">
+					{% for ligneFacture in facture.lignefactures %}
+
+						<div class="list-product list-view-item">
+							<div class="list-view-item__image-column">
+								<div
+									class="list-view-item__image-wrapper">
+									<!-- Image -->
+									<img
+									class="list-view-item__image blur-up lazyload" data-src="{{ asset(ligneFacture.idLivre.image) }}" src="{{ asset(ligneFacture.idLivre.image) }}" alt="image" title="{{ ligneFacture.idLivre.libelle }}"/>
+								<!-- End Image -->
+								</div>
+							</div>
+							<div class="list-view-item__title-column">
+								<div class="h4 grid-view-item__title">
+									{{ligneFacture.idLivre.libelle}}
+									(x{{ligneFacture.qte}})
+								</div>
+								<p class="product-review">
+									<i class="font-13 fa fa-star"></i>
+									<i class="font-13 fa fa-star"></i>
+									<i class="font-13 fa fa-star"></i>
+									<i class="font-13 fa fa-star-o"></i>
+									<i class="font-13 fa fa-star-o"></i>
+								</p>
+								{% if ligneFacture.idLivre.langue == 'Français' %}
+									<p>
+										<img src="{{ asset('assets/front/images/france.png') }}" height="12">
+										<span>{{ligneFacture.idLivre.langue}}</span>
+									</p>
+								{% elseif ligneFacture.idLivre.langue == 'Arabe' %}
+									<p>
+
+										<img src="{{ asset('assets/front/images/tunisia.png') }}" height="12">
+										<span>{{ligneFacture.idLivre.langue}}</span>
+									</p>
+								{% else %}
+									<p>
+
+										<img src="{{ asset('assets/front/images/united-kingdom.png') }}" height="12">
+										<span>{{ligneFacture.idLivre.langue}}</span>
+									</p>
+								{% endif %}
+
+
+								<p>{{ligneFacture.idLivre.description}}</p>
+								<p class="product-price grid-view-item__meta">
+									<span class="money" style="color:red">
+										<strong>Prix:
+										</strong>
+									</span>
+									{{ligneFacture.idLivre.prix}}DT
+								</p>
+								<p class="product-price grid-view-item__meta">
+									<span class="money" style="color:red">
+										<strong>Total:
+										</strong>
+									</span>
+									{{ligneFacture.mnt}}DT
+								</p>
+
+							</div>
+						</div>
+					{% endfor %}
+
+				</div>
+			</div>
+			<div class="infinitpaginOuter">
+				<div class="infinitpagin">
+					<a href="#" class="btn loadMore">Afficher encore</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

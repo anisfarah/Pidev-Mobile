@@ -1,0 +1,81 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+	Ktebi Home
+{% endblock %}
+
+{% block body %}
+	<h4 class="page-title">Ajouter un Livre à la Promo
+		{{ promo.code }}</h4>
+
+	{% block content %}
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="card-box">
+						<h4 class="page-title">Livres disponibles</h4>
+						<table class="table table-centered table-nowrap table-striped" id="products-datatable">
+							<thead>
+								<tr>
+									<th>Image</th>
+									<th>Libelle</th>
+									<th style="width: 85px;">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for livre in livresDisponibles %}
+									<tr>
+										<td>
+											<a href="{{ path('detail_livre', {'idLivre': livre.idLivre}) }}">
+												<img src="{{ asset(livre.image) }}" width="120" height="100" alt="Votre image">
+											</a>
+										</td>
+										<td>{{ livre.libelle }}</td>
+										<td>
+											<form action="{{ path('add_livre_to_promo', {'idLivre': livre.idLivre,'id': promo.id}) }}" method="post">
+												{% if livre not in promo.livres %}
+													<button type="submit" class="btn btn-sm btn-primary">Ajouter</button>
+												{% endif %}
+											</form>
+
+											{% if livre in promo.livres %}
+												<button type="submit" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">Supprimer</button>
+											{% endif %}
+
+
+											<!-- Modale de confirmation de suppression -->
+											<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+															Êtes-vous sûr de vouloir supprimer ce livre de cette promo ?
+														</div>
+														<div class="modal-footer">
+															<form action="{{ path('remove_livre_from_promo', {'idLivre': livre.idLivre,'id': promo.id}) }}" method="post">
+																<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+																<button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+
+
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+{% endblock %}

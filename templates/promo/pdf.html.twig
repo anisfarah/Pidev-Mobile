@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Mon fichier PDF</title>
+		<style>
+			/* Styles généraux */
+			body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
+			}
+
+			/* Style de l'en-tête */
+			h1 {
+				text-align: center;
+				margin-top: 20px;
+			}
+
+			/* Style de la table */
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-top: 20px;
+			}
+
+			th,
+			td {
+				border: 1px solid #000;
+				padding: 8px;
+				text-align: left;
+			}
+
+			th {
+				background-color: #f2f2f2;
+			}
+
+			/* Style des images */
+			.image {
+				max-width: 100px;
+				max-height: 100px;
+				display: inline-block;
+				vertical-align: middle;
+				margin-right: 10px;
+			}
+
+			/* Style du texte des livres */
+			.livre {
+				display: inline-block;
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Catalogue des Livres en Promotion</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>Code</th>
+					<th>Réduction</th>
+					<th>Date de début</th>
+					<th>Date de fin</th>
+					<th>Livres</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for promo in promos %}
+					{% if promo.livres is not empty %}
+						<tr>
+							<td>{{ promo.code }}</td>
+							<td>{{ promo.reduction }}</td>
+							<td>{{ promo.dateDebut ? promo.dateDebut|date('Y-m-d') : '' }}</td>
+							<td>{{ promo.dateFin ? promo.dateFin|date('Y-m-d') : '' }}</td>
+							<td>
+								{% for livre in promo.livres %}
+									<div class="livre">
+										{{ livre.libelle }}
+									</div>
+									<br>
+								{% endfor %}
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</body>
+</html>

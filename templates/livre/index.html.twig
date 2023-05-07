@@ -1,0 +1,172 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+	Ktebi Home
+{% endblock %}
+
+
+
+{% block body %}
+<h4 class="page-title">Livres</h4>
+
+
+{% block content %}
+
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            {% if app.flashes('success')|length > 0 %}
+            <div class="alert alert-primary" role="alert">
+                <i class="mdi mdi-check-all mr-2"></i> Le livre a été ajouté avec <strong>succès</strong> 
+            </div>
+        {% endif %}
+        {% if app.flashes('success1')|length > 0 %}
+            <div class="alert alert-success" role="alert">
+                <i class="mdi mdi-check-all mr-2"></i> Le livre a été modifié avec <strong>succès</strong> 
+            </div>
+        {% endif %}
+        {% if app.flashes('danger')|length > 0 %}
+            <div class="alert alert-danger" role="alert">
+                <i class="mdi mdi-check-all mr-2"></i> Le livre a été supprimé avec <strong>succès</strong> 
+            </div>
+        {% endif %}
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-sm-4">
+                                    <a href="{{ path('add_livre')}}" class="btn btn-danger waves-effect waves-light">
+                                        <i class="mdi mdi-plus-circle mr-1"></i>
+                                        Ajouter Livre</a>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <form method="get" action="{{ path('search_livre') }}" class="input-group">
+                                        <input type="text" class="form-control" name="query" placeholder="Rechercher ici ...">
+                                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                                    </form>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <form method="get" action="{{ path('catalogue_promo') }}" class="input-group">
+                                        <button type="submit" class="btn btn-primary">Livres en Promotion</button>
+                                    </form>
+                                </div>
+                                   
+                            </div>
+                            
+
+                            {% if livres|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-centered table-nowrap table-striped" id="products-datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Libelle</th>
+                                            <th>Prix</th>
+                                            <th>Auteur</th>
+                                            <th>Date D'édition</th>
+                                            <th style="width: 85px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for livre in livres %}
+                                        <tr>
+                                            <td>
+                                                
+                                                <img src="{{ asset(livre.image) }}" width="120" height="100" alt="Votre image">
+
+                                            </td> 
+                                            
+                                            <td>
+                                                {{ livre.libelle }}
+                                            </td>
+                                            <td>
+                                                {{ livre.prix }}
+                                            </td>
+                                            <td>
+												{{ livre.auteur.prenom   }}
+                                                {{ livre.auteur.nom   }}
+                                            </td>
+                                            <td>
+                                                {{ livre.dateEdition ? livre.dateEdition|date('Y-m-d') : '' }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('detail_livre', {'idLivre': livre.idLivre}) }}" class="action-icon"> <i class="mdi mdi-information-outline"></i></a>
+                                                <a href="{{ path('edit_livre', {'idLivre': livre.idLivre}) }}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                                <a href="{{ path('delete_livre', {'idLivre': livre.idLivre}) }}" class="action-icon" onClick=" validateSubmit()"> <i class="mdi mdi-delete"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="6">no records found</td>
+                                        </tr>
+                                        {% endfor %} 
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="alert alert-warning" role="alert">
+                                Aucun livre trouvé.
+                            </div>
+{% endif %}
+
+
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Êtes-vous sûr de vouloir supprimer cet article ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-danger" onclick="deleteArticle()">Supprimer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div> <!-- container -->
+
+    
+
+   
+
+</div>
+<script>									
+    function validateSubmit() {
+                             result = confirm("Êtes-vous sur de vouloir supprimer l'article ?");
+                            if (result) {
+                               $('#form').submit();
+                               
+                            
+                                      }
+                            }
+                            function deleteArticle() {
+                                $('#form').submit();
+                            }
+function showConfirmModal() {
+                                $('#confirmDeleteModal').modal('show');
+                            }
+                        
+                           
+                            </script>
+
+{% endblock %}
+{% endblock %}

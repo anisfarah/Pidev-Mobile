@@ -1,0 +1,234 @@
+{% extends 'baseBack.html.twig' %}
+{% block title %}
+	Factures Liste
+{% endblock %}
+{% block body %}
+	<h4 class="page-title">Liste des factures</h4>
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body">
+					<div class="row mb-2">
+						<div class="col-lg-12">
+							<form class="form-inline">
+								<div class="form-group mb-2">
+									<label for="inputPassword2" class="sr-only">Search</label>
+									<input type="search" name="search" class="form-control" id="searchInput" placeholder="Search...">
+									<button class="btn btn-secondary my-2 my-sm-0" id="btnSearch" type="button">Rechercher</button>
+								</div>
+								<div class="form-group mx-sm-3 mb-2">
+									<label for="status-select" class="mr-2">Filtrer par</label>
+									<select class="custom-select" id="paiement-select" name="paiement">
+										<option value="">Choisir...</option>
+										<option value="both">Les deux</option>
+										<option value="espece">Espèce</option>
+										<option value="cheque">Chèque</option>
+									</select>
+								</div>
+								<div class="form-group mx-sm-3 mb-2">
+									<label for="trier-select" class="mr-2">Trier par</label>
+									<select class="custom-select" id="tri-select" name="tri">
+										<option value="">Choisir...</option>
+										<option value="default">Default</option>
+										<option value="nomPreAsc">Nom & prenom (A-Z)</option>
+										<option value="nomPreDesc">Nom & prenom (Z-A)</option>
+										<option value="TotalAsc">Total, haut en bas</option>
+										<option value="TotalDesc">Total, bas en haut</option>
+										<option value="dateasc">Date asc</option>
+										<option value="datedesc">Date desc</option>
+									</select>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table table-centered table-nowrap mb-0">
+							<thead class="thead-light">
+								<tr>
+									<th style="width: 20px;">
+										<div class="custom-control custom-checkbox">
+											<input type="checkbox" class="custom-control-input" id="customCheck1">
+											<label class="custom-control-label" for="customCheck1">&nbsp;</label>
+										</div>
+									</th>
+									<th>Prenom & Nom</th>
+									<th>Produits</th>
+									<th>Date</th>
+									<th>Total</th>
+									<th>Paiement</th>
+									<th style="width: 125px;">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% if factures is empty %}
+									<tr>
+										<td colspan="6" class="text-center">Aucune information n'est affichée pour le moment!</td>
+									</tr>
+								{% else %}
+									{% for facture in factures %}
+										<tr>
+											<td>
+												<div class="custom-control custom-checkbox">
+													<input type="checkbox" class="custom-control-input">
+													<label class="custom-control-label">&nbsp;</label>
+												</div>
+											</td>
+
+											<td>{{facture.idUser.prenom}}
+												{{facture.idUser.nom}}</td>
+											<td>
+												{% for ligneFacture in facture.lignefactures %}
+													<a>
+														<img src="{{ asset(ligneFacture.idLivre.image) }}" title="{{ligneFacture.idLivre.libelle}}: {{ligneFacture.idLivre.prix}}DT" alt="product-img" height="32"/>
+													</a>
+												{% endfor %}
+											</td>
+											<td>
+												{{ facture.dateFac | date('F d Y') }}
+												<small class="text-muted">{{ facture.dateFac | date('h:i A') }}</small>
+											</td>
+											<td>
+												{{ facture.mntTotale }}
+												DT
+											</td>
+											<td>
+												{{ facture.modePaiement }}
+											</td>
+											<td>
+												<a class="action-icon" data-toggle="modal" data-target="#top-modal-{{facture.idFacture}}">
+													<i class="mdi mdi-eye"></i>
+												</a>
+												<a class="action-icon" href="{{ path('facture_delete', {idFacture: facture.idFacture}) }}" onclick="return confirm('Etes vous sur de vouloir supprimer cette facture?');" style="text-decoration:none">
+													<i class="mdi mdi-delete"></i>
+												</a>
+											</td>
+										</tr>
+
+										<div id="top-modal-{{facture.idFacture}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+											<div class="modal-dialog modal-top">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h4 class="modal-title" id="topModalLabel">Détails facture</h4>
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+													</div>
+													<div class="modal-body">
+														<p>
+															<strong>
+																Nom et prenom:
+															</strong>
+															{{facture.idUser.prenom}}
+															{{facture.idUser.nom}}</p>
+														<p>
+															<strong>
+																Nombre des produits:
+															</strong>
+															{{facture.lignefactures | length}}</p>
+														<p>
+															<strong>Produits:</strong>
+															<ul>
+																{% for ligneFacture in facture.lignefactures %}
+																	<li>{{ ligneFacture.idLivre.libelle }}
+																		(x{{ligneFacture.qte}})</li>
+																{% endfor %}
+															</ul>
+														</p>
+														<p>
+															<strong>
+																Date:
+															</strong>
+															{{ facture.dateFac | date('F d Y h:i A') }}
+														</p>
+														<p>
+															<strong>
+																Montant total:
+															</strong>
+															{{ facture.mntTotale }}
+															DT
+														</p>
+														<p>
+															<strong>
+																Mode de paiement:
+															</strong>
+															{{ facture.modePaiement }}
+														</p>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary my-2 my-sm-0" data-dismiss="modal">Fermer</button>
+													</div>
+												</div>
+												<!-- /.modal-content -->
+											</div>
+											<!-- /.modal-dialog -->
+										</div>
+
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</table>
+					</div>
+					<ul class="pagination pagination-rounded justify-content-end my-2">
+						{% if pager.hasPreviousPage %}
+							<li class="page-item">
+								<a class="page-link" href="{{ path('admin_factures', { page: pager.previousPage, tri: tri, search: search, paiement: paiement }) }}" aria-label="Previous">
+									<span aria-hidden="true">«</span>
+									<span class="sr-only">Previous</span>
+								</a>
+							</li>
+						{% else %}
+							<li class="page-item disabled">
+								<span class="page-link" aria-hidden="true">&laquo;</span>
+							</li>
+						{% endif %}
+
+						{% for page in 1..totalPages %}
+							{% if page == pager.getCurrentPage %}
+								<li class="page-item active">
+									<span class="page-link">{{ page }}</span>
+								</li>
+							{% endif %}
+						{% endfor %}
+
+						{% if pager.hasNextPage %}
+							<li class="page-item">
+								<a class="page-link" href="{{ path('admin_factures', { page: pager.nextPage , tri: tri, search: search, paiement: paiement }) }}">»</a>
+							</li>
+						{% else %}
+							{% if pager.getCurrentPage == totalPages %}
+								<li class="page-item disabled">
+									<span class="page-link" aria-hidden="true">&raquo;</span>
+								</li>
+							{% else %}
+								<li class="page-item active">
+									<a class="page-link" href="{{ path('admin_factures', { page: totalPages, tri: tri, search: search, paiement: paiement }) }}">{{ totalPages +1 }}</a>
+								</li>
+								<li class="page-item disabled">
+									<span class="page-link" aria-hidden="true">&raquo;</span>
+								</li>
+							{% endif %}
+						{% endif %}
+					</ul>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		const paiementSelect = document.getElementById('paiement-select');
+const triSelect = document.getElementById('tri-select');
+const btnSearch = document.getElementById('btnSearch');
+
+
+paiementSelect.addEventListener('change', function () {
+this.form.submit();
+});
+triSelect.addEventListener('change', function () {
+this.form.submit();
+});
+btnSearch.addEventListener('click', function () {
+this.form.submit();
+});
+	</script>
+{% endblock %}

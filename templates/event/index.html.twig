@@ -1,0 +1,161 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+	Ktebi Home
+{% endblock %}
+
+
+{% block body %}
+	<h4 class="page-title">Evénéments</h4>
+
+
+	{% block content %}
+
+		<div
+			class="content">
+
+			<!-- Start Content-->
+			<div class="container-fluid">
+				{% if app.flashes('success')|length > 0 %}
+					<div class="alert alert-primary" role="alert">
+						<i class="mdi mdi-check-all mr-2"></i>
+						Le livre a été ajouté avec
+						<strong>succès</strong>
+					</div>
+				{% endif %}
+				{% if app.flashes('success1')|length > 0 %}
+					<div class="alert alert-success" role="alert">
+						<i class="mdi mdi-check-all mr-2"></i>
+						Le livre a été modifié avec
+						<strong>succès</strong>
+					</div>
+				{% endif %}
+				{% if app.flashes('danger')|length > 0 %}
+					<div class="alert alert-danger" role="alert">
+						<i class="mdi mdi-check-all mr-2"></i>
+						Le livre a été supprimé avec
+						<strong>succès</strong>
+					</div>
+				{% endif %}
+
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row mb-2">
+									<div class="col-sm-4">
+										<a class="btn btn-primary btn-add" style="width:190px" href="{{ path('app_event_new') }}">
+											<i class="mdi mdi-plus-circle mr-1"></i>
+											Ajouter Evenement
+										</a>
+									</div>
+								</div>
+
+
+							</div>
+
+
+							{% if events|length > 0 %}
+								<div class="table-responsive">
+									<table class="table table-centered table-nowrap table-striped" id="products-datatable">
+										<thead>
+											<tr>
+												<th>Image</th>
+												<th>NomEvent</th>
+												<th>LieuEvent</th>
+												<th>DateEvent</th>
+												<th>PrixEvent</th>
+												<th style="width: 85px;">Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for event in events %}
+												<tr>
+													<td><img width="50px" height="50px" src="{{asset(event.image) }}" alt=""></td>
+
+													<td>{{ event.nomEvent }}</td>
+													<td>{{ event.lieuEvent }}</td>
+													<td>{{ event.dateEvent ? event.dateEvent|date('Y-m-d') : '' }}</td>
+													<td>{{ event.prixEvent }}</td>
+													<td style="display: inline-flex;">
+
+														<a href="{{ path('app_event_show', {'idEvent': event.idEvent}) }}" class="btn btn-sm bg-primary-light">
+															<i class="far fa-eye"></i>
+														</a>
+														&nbsp;
+														<a href="{{ path('app_event_edit', {'idEvent': event.idEvent}) }}" class="btn btn-sm bg-info-light">
+															<i class="far fa-edit"></i>
+														</a>
+														&nbsp;
+														{{ include('event/_delete_form.html.twig') }}
+													</td>
+
+												</tr>
+											{% else %}
+												<tr>
+													<td colspan="8">no records found</td>
+												</tr>
+											{% endfor %}
+
+										</tbody>
+									</table>
+								</div>
+							{% else %}
+								<div class="alert alert-warning" role="alert">
+									Aucun Event trouvé.
+								</div>
+							{% endif %}
+
+
+						</div>
+						<!-- end card-body-->
+					</div>
+					<!-- end card-->
+				</div>
+				<!-- end col -->
+			</div>
+			<!-- end row -->
+
+			<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							Êtes-vous sûr de vouloir supprimer cet article ?
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+							<button type="button" class="btn btn-danger" onclick="deleteArticle()">Supprimer</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- container -->
+
+
+	</div>
+	<script>
+		function validateSubmit() {
+result = confirm("Êtes-vous sur de vouloir supprimer l'article ?");
+if (result) {
+$('#form').submit();
+
+
+}
+}
+function deleteArticle() {
+$('#form').submit();
+}
+function showConfirmModal() {
+$('#confirmDeleteModal').modal('show');
+}
+	</script>
+
+{% endblock %}{% endblock %}

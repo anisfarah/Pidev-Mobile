@@ -1,0 +1,96 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+	Ktebi Home
+{% endblock %}
+
+
+{% block body %}
+	<h4 class="page-title">Thèmes</h4>
+
+
+	{% block content %}
+
+		<div
+			class="content">
+
+			<!-- Start Content-->
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row mb-2">
+									<div class="col-sm-4">
+										<a href="{{ path('app_theme_new') }}" class="btn btn-primary btn-add">
+											<i class="mdi mdi-plus-circle mr-1"></i>
+											Ajouter Theme</a>
+									</div>
+
+						
+								</div>
+
+
+								{% if themes|length > 0 %}
+									<div class="table-responsive">
+										<table class="table table-centered table-nowrap table-striped" id="products-datatable">
+											<thead>
+												<tr>
+													<th>IdTheme</th>
+													<th>NomTheme</th>
+													<th>Description</th>
+													<th style="width: 85px;">Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for theme in themes %}
+													<tr>
+														<td>{{ theme.idTheme }}</td>
+														<td>{{ theme.nomTheme }}</td>
+														<td>{{ theme.description }}</td>
+														<td style="display: inline-flex;margin-left: 78px;" colspan="3">
+
+															<a href="{{ path('app_theme_show', {'idTheme': theme.idTheme}) }}" class="btn btn-sm bg-primary-light">
+																<i class="far fa-eye"></i>
+															</a>
+															&nbsp;
+															<a href="{{ path('app_theme_edit', {'idTheme': theme.idTheme}) }}" class="btn btn-sm bg-info-light">
+																<i class="far fa-edit"></i>
+															</a>
+															&nbsp;
+															{{ include('theme/_delete_form.html.twig') }}
+														</td>
+													</tr>
+												{% else %}
+													<tr>
+														<td colspan="4">no records found</td>
+													</tr>
+												{% endfor %}
+
+											</tbody>
+										</table>
+									</div>
+								{% else %}
+									<div class="alert alert-warning" role="alert">
+										Aucun Theme trouvé.
+									</div>
+								{% endif %}
+
+
+							</div>
+						</div>
+						<!-- end card-->
+					</div>
+					<!-- end col -->
+				</div>
+				<!-- end row -->
+
+
+			</div>
+
+
+		</div>
+
+
+	{% endblock %}
+{% endblock %}

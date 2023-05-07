@@ -1,0 +1,189 @@
+{% extends 'baseFront.html.twig' %}
+{% block title %}
+	Facture Page
+{% endblock %}
+{% block body %}
+	<div
+		id="page-content">
+		<!--Page Title-->
+		<div class="page section-header text-center">
+			<div class="page-title">
+				<div class="wrapper">
+					<h1 class="page-width">Votre Facture</h1>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 main-col">
+					<div class="alert alert-success text-uppercase" role="alert">
+						<i class="fas fa-file-invoice-dollar"></i>
+						&nbsp;<strong>Bonjour!</strong>
+						Voici le contenu de votre facture!
+					</div>
+					<form class="cart style2">
+						<table>
+							<thead class="cart__row cart__header">
+								<tr>
+									<th colspan="2" class="text-center">Produit</th>
+									<th class="text-center">Prix</th>
+									<th class="text-center">Quantite</th>
+									<th class="text-center">SousTotal</th>
+									<th class="action">&nbsp;</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% if data is empty %}
+									<tr>
+										<td colspan="6" class="text-center">Le panier est vide pour le moment.</td>
+									</tr>
+								{% else %}
+									{% for item in data %}
+										<tr class="cart__row border-bottom line1 cart-flex border-top">
+											<td class="cart__image-wrapper cart-flex-item">
+												<a href="#"><img class="cart__image" src="{{ asset(item.image) }}" alt="{{ item.libelle}}"></a>
+											</td>
+											<td class="cart__meta small--text-left cart-flex-item">
+												<div class="list-view-item__title">
+													<a href="#">{{ item.libelle}}
+													</a>
+												</div>
+
+												<div class="cart__meta-text">
+													Auteur :
+													{{item.auteur.prenom}}
+													{{item.auteur.nom}}<br>
+													Categorie:
+													{{ item.categorie}}<br>Langue :
+													{% if item.langue == 'Français' %}
+														<span class="align-middle">{{item.langue}}</span>
+														<img src="{{ asset('assets/front/images/france.png') }}" alt="user-image" class="mr-1" height="12">
+													{% elseif item.langue == 'Arabe' %}
+														<span class="align-middle">{{item.langue}}</span>
+														<img src="{{ asset('assets/front/images/tunisia.png') }}" alt="user-image" class="mr-1" height="12">
+													{% else %}
+														<span class="align-middle">{{item.langue}}</span>
+														<img src="{{ asset('assets/front/images/united-kingdom.png') }}" alt="user-image" class="mr-1" height="12">
+													{% endif %}
+
+												</div>
+											</td>
+											<td class="cart__price-wrapper cart-flex-item text-center">
+													{% if item.getCodePromo() != null %}
+												<span class="money">{{ item.prix * (1 - item.getCodePromo().reduction/100)}}
+													DT</span>
+													{% else %}
+													<span class="money">{{ item.prix }}
+													DT</span>
+													{% endif %}
+											</td>
+											<td class="cart__update-wrapper cart-flex-item text-center">
+												<span class="align-middle">{{item.qte}}</span>
+
+											</td>
+											<td class="text-center small--hide cart-price">
+												<div>
+													<span class="money" id="total-price-{{ item.idLigne }}">{{ item.sousTotal }}DT</span>
+												</div>
+											</td>
+
+										</tr>
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</tbody>
+					</table>
+				</form>
+
+			</div>
+			<div class="container mt-4">
+				<div class="row">
+					<div class="col-6 col-sm-6 col-md-4 col-lg-8 mx-auto cart__footer">
+						<div class="solid-border">
+							<div class="row border-bottom pb-2">
+								<span class="col-12 col-sm-6 cart__subtotal-title">Nb Produits</span>
+								<span class="col-12 col-sm-6 text-right">
+									<span class="money">{{data|length}}</span>
+								</span>
+							</div>
+							<div class="row border-bottom pb-2 pt-2">
+								<span class="col-12 col-sm-6 cart__subtotal-title">Qte Total</span>
+								<span class="col-12 col-sm-6 text-right">{{qte_total}}</span>
+							</div>
+							<form id="checkout-form" method="POST" action="{{ path('app_ajouter_facture', {'id_panier': panier.idPanier}) }}">
+								<div class="row border-bottom pb-2 pt-2">
+									<span class="col-12 col-sm-6 cart__subtotal-title">Mode de paiement</span>
+									<div class="col-12 col-sm-6 text-right">
+										<label><input type="radio" name="payment_method" value="cheque" checked>
+											Chèque</label>
+										<label><input type="radio" name="payment_method" value="cash">
+											Espèce</label>
+									</div>
+								</div>
+								<div class="row border-bottom pb-2 pt-2">
+									<span class="col-12 col-sm-6 cart__subtotal-title">
+										<strong>Total</strong>
+									</span>
+									<span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right">
+										<span class="money">{{prixTotal}}DT</span>
+									</span>
+
+								</div>
+								<input
+								type="hidden" name="id_panier" value="{{ panier.idPanier }}">
+
+							{# <input type="submit" name="checkout" id="cartCheckout" class="btn btn--small-wide checkout" value="Passer" > #}
+
+							</form>
+							<div id="paypal-button-container"></div>
+
+							{# <div class="paymnet-img"><img src="{{asset('assets/front/images/payment-img.jpg')}}" alt="Payment"></div> #}
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<script src="https://www.paypal.com/sdk/js?client-id=AZj1PGzqiFOatOWEjAQ4c-Fo4di4D2ksaFrWMCwsf-85RNVPA7Zh99NcpcBpJxjOQM_E5LRBQpSnlWIl&disable-funding=credit,card"></script>
+</div>
+
+<script>
+	paypal.Buttons({
+style: {
+color: 'black',
+shape: 'pill'
+},
+createOrder: function (data, actions) {
+return actions.order.create({
+purchase_units: [
+{
+amount: {
+value: {{ prixTotal }}
+}
+}
+]
+});
+},
+onApprove: function (data, actions) {
+return actions.order.capture().then(function (details) {
+console.log(details);
+document.getElementById('checkout-form').submit();
+
+})
+},
+onCancel: function (data) {
+window.alert('Paiement non effectué!');
+  window.setTimeout(function () {
+    window.location.replace("http://127.0.0.1:8000/");
+  }, 200);
+}
+}).render('#paypal-button-container');
+document.getElementById('checkout-form').addEventListener('submit', function (event) {
+event.preventDefault();
+// Perform any additional form validation or processing if needed
+// Submit the form to the server
+this.submit();
+});
+</script>
+{% endblock %}

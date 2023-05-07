@@ -1,0 +1,60 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+	Edit 
+{% endblock %}
+{#<h1>Ajout Promo</h1>
+    {{ form(form)}}#}
+{% block body %}
+<h4 class="page-title">Modifier Promo</h4>
+        <!-- Start Content-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                    {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+                    <div class="card-box">
+                        <div class="form-group mb-3">
+                            <label for="code">Code<span class="text-danger">*</span></label>
+                            {{ form_widget(form.code , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Code'}} ) }}
+                                        {{ form_errors(form.code) }}
+                        </div>
+
+
+                        <div class="form-group mb-3">
+                            <label for="reduction">Reduction <span class="text-danger">*</span></label>
+                            {{ form_widget(form.reduction , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Reduction'}} ) }}
+                                        {{ form_errors(form.reduction) }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="dateDebut">Date Debut <span class="text-danger">*</span></label>
+                            {{ form_widget(form.dateDebut , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Code'}} ) }}
+                                        {{ form_errors(form.dateDebut) }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="dateFin">Date Fin <span class="text-danger">*</span></label>
+                            {{ form_widget(form.dateFin , {'attr': {'class': 'form-control form-control-user' , 'placeholder' : 'Code'}} ) }}
+                                        {{ form_errors(form.dateFin) }}
+                        </div>   
+                    </div> <!-- end card-box -->
+                    <div class="text-center mb-6">
+                        <button type="reset" class="btn w-sm btn-light waves-effect">Annuler</button>
+                        <button type="submit" class="btn w-sm btn-success waves-effect waves-light" >
+                            Modifier
+                        </button>
+                    </div>
+                    {{ form_end(form) }}
+                   
+                </div> <!-- end col -->
+                
+            
+        </div> <!-- container -->
+        
+    
+
+   
+
+
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'baseFront.html.twig' %}
+
+{% block title %}
+	Mes factures
+{% endblock %}
+
+{% block body %}
+	<div
+		id="page-content">
+		<!--Page Title-->
+		<div class="page section-header text-center">
+			<div class="page-title">
+				<div class="wrapper">
+					<h1 class="page-width">Mes Factures</h1>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 main-col">
+					<div class="alert alert-success text-uppercase" role="alert">
+						<i class="fas fa-clipboard-list"></i>
+						&nbsp;<strong>Bonjour!</strong>
+						Vous pouvez voir vos différents factures!
+					</div>
+					
+					<form action="#" method="post" class="cart style2">
+						<table>
+							<thead class="cart__row cart__header">
+								<tr>
+									<th class="text-center">N°</th>
+									<th class="text-center">Mode paiement</th>
+									<th class="text-center">Montant total</th>
+									<th class="text-center">Date Facture</th>
+									<th class="action">&nbsp;</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% if factures is empty %}
+
+									<tr>
+										<td colspan="6" class="text-center">Aucune commande passée pour le moment!</td>
+									</tr>
+								{% else %}
+									{% set counter = 1 %}
+
+									{% for facture in factures %}
+										<tr>
+											<td class="text-center small--hide cart-price">{{ counter }}</td>
+											<td class="text-center small--hide cart-price">{{ facture.modePaiement }}</td>
+											<td class="text-center small--hide cart-price">{{ facture.mntTotale }} DT</td>
+											<td class="text-center small--hide cart-price">{{ facture.dateFac|date('d F Y H:i:s') }}</td>
+											<td class="text-center small--hide cart-price">
+												<a href="{{ path('details_factures', { idFacture: facture.idFacture, counter: counter }) }}" title="Détails" class="quick-view" style="text-decoration:none;">
+													<i class="icon anm anm-search-plus-r"></i>
+												</a>
+											</td>
+										</tr>
+										{% set counter = counter + 1 %}
+
+									{% endfor %}
+								{% endif %}
+
+
+							</tbody>
+
+
+						</table>
+					</form>
+
+				</div>
+				<ul class="pagination pagination-rounded justify-content-end my-2">
+						{% if pager.hasPreviousPage %}
+							<li class="page-item">
+								<a class="page-link" href="{{ path('mes_factures', { page: pager.previousPage }) }}" aria-label="Previous">
+									<span aria-hidden="true">«</span>
+									<span class="sr-only">Previous</span>
+								</a>
+							</li>
+						{% else %}
+							<li class="page-item disabled">
+								<span class="page-link" aria-hidden="true">&laquo;</span>
+							</li>
+						{% endif %}
+						
+
+						{% for page in 1..totalPages %}
+							{% if page == pager.getCurrentPage %}
+								<li class="page-item active">
+									<span class="page-link">{{ page }}</span>
+								</li>
+							{% endif %}
+						{% endfor %}
+
+						{% if pager.hasNextPage %}
+							<li class="page-item">
+								<a class="page-link" href="{{ path('mes_factures', { page: pager.nextPage}) }}">»</a>
+							</li>
+						{% else %}
+							{% if pager.getCurrentPage == totalPages %}
+								<li class="page-item disabled">
+									<span class="page-link" aria-hidden="true">&raquo;</span>
+								</li>
+							{% else %}
+								{# <li class="page-item active">
+									<a class="page-link" href="{{ path('mes_factures', { page: totalPages}) }}">{{ totalPages +1 }}</a>
+								</li> #}
+								<li class="page-item disabled">
+									<span class="page-link" aria-hidden="true">&raquo;</span>
+								</li>
+							{% endif %}
+						{% endif %}
+					</ul>
+
+
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

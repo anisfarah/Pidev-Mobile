@@ -1,0 +1,89 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+	Ktebi Home
+{% endblock %}
+
+
+{% block body %}
+	<h4 class="page-title">Détail Livre</h4>
+
+
+	{% block content %}
+
+		<!-- Start Content-->
+		<div class="container-fluid">
+
+
+			<div class="row">
+				<div class="col-12">
+					<div class="card-box">
+						<div class="row">
+							<div class="col-lg-5">
+
+								<div class="tab-content pt-0">
+									<div class="tab-pane active show" id="product-1-item">
+										<img src="{{ asset(livre.image) }}" alt="" width="500" height="100" class="img-fluid mx-auto d-block rounded">
+									</div>
+
+								</div>
+
+							</div>
+							<!-- end col -->
+							<div class="col-lg-7">
+								<div class="pl-xl-3 mt-3 mt-xl-0">
+									<h4 class="mb-3">{{ livre.libelle }}</h4>
+									{% if livre.codePromo is not null %}
+										<h6 class="text-danger text-uppercase">{{livre.codePromo.reduction}}
+											% Off</h6>
+										<h4 class="mb-4">Prix :
+											<span class="text-muted mr-2">
+												<del>{{livre.prix}}</del>
+											</span>
+											<span class="badge bg-soft-success text-success mb-4">{{ livre.prix * (1 - livre.codePromo.reduction / 100) }}DT</span>
+										</h4>
+									{% else %}
+										<h4>
+											<span class="badge bg-soft-success text-success mb-4">{{livre.prix }}</span>
+										</h4>
+										<h4 class="mb-4">Prix :
+											<b>{{livre.prix }}
+												DT</b>
+										</h4>
+									{% endif %}
+									<p>Description :
+										<span class="text-muted mb-4">{{ livre.description }}</span>
+									</p>
+									<p class="mb-4">
+										Date d'édition :
+										<b>{{ livre.dateEdition ? livre.dateEdition|date('Y-m-d') : '' }}</b>
+									</p>
+									<p>Auteur :
+										<span class="text-muted mb-4">{{ livre.auteur.prenom   }}
+											{{ livre.auteur.nom   }}</span>
+									</p>
+									<p>Editeur :
+										<span class="text-muted mb-4">{{ livre.editeur }}</span>
+									</p>
+
+
+								</div>
+							</div>
+							<!-- end col -->
+						</div>
+						<!-- end row -->
+
+
+					</div>
+					<!-- end card-->
+				</div>
+				<!-- end col-->
+			</div>
+			<!-- end row-->
+
+		</div>
+		<!-- container -->
+
+
+	{% endblock %}
+{% endblock %}

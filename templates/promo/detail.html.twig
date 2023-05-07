@@ -1,0 +1,81 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+	Ktebi Home
+{% endblock %}
+
+{% block body %}
+<h4 class="page-title">Détail Promo</h4>
+
+{% block content %}
+        <!-- Start Content-->
+        <div class="container-fluid">
+            {% if app.flashes('success')|length > 0 %}
+            <div class="alert alert-primary" role="alert">
+                <i class="mdi mdi-check-all mr-2"></i> Le livre a été ajouté avec <strong>succès</strong> 
+            </div>
+        {% endif %}
+        {% if app.flashes('danger')|length > 0 %}
+            <div class="alert alert-danger" role="alert">
+                <i class="mdi mdi-check-all mr-2"></i> Le livre a été supprimé avec <strong>succès</strong> 
+            </div>
+        {% endif %}
+
+            <div class="row">
+                <div class="col-10">
+                    <div class="card-box">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4 class="mb-3">{{ promo.code }}</h4>
+                                <h6 class="text-danger text-uppercase">{{ promo.reduction }} % Off</h6>
+                                
+
+                            {% if promo.dateDebut|date('Y-m-d')  > now and promo.dateFin|date('Y-m-d') > now %}
+                            <h4><span class="badge bg-soft-primary text-primary mb-4">Pas encore valide</span></h4>
+                        {% elseif  promo.dateDebut|date('Y-m-d') < now and promo.dateFin|date('Y-m-d')  > now  %}
+                        <h4><span class="badge bg-soft-success text-success mb-4">Valide</span></h4>
+                        {% elseif promo.dateFin|date('Y-m-d')  < now and  promo.dateDebut|date('Y-m-d')  < now %}
+                        <h4><span class="badge bg-soft-danger text-danger mb-4">Expiré</span></h4>
+                        {% endif %}
+
+                            
+
+                                <ul class="nav nav-pills nav-justified">
+                                    
+                                    {% for livre in livres %}
+                                    <li class="nav-item">
+                                        <a href="{{ path('detail_livre', {'idLivre': livre.idLivre}) }}">
+                                            <img src="{{ asset(livre.image) }}" alt="" class="img-fluid mx-auto d-block rounded">
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                 
+                                <br>
+                                
+                                <div >
+
+                                    <a href="{{ path('show_livre_promo',{'id' : promo.id}) }}" class="btn btn-success waves-effect waves-light">
+                                        <i class="mdi mdi-plus-circle mr-1"></i>
+                                        Ajouter un Livre
+                                    </a>
+                                
+                                </div>
+                          
+                        </div> <!-- end col -->
+                        
+                        <!-- end row -->
+
+
+
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+            </div>
+            <!-- end row-->
+            
+        </div> <!-- container -->
+
+   
+
+{% endblock %}
+{% endblock %}

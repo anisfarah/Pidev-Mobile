@@ -1,0 +1,71 @@
+{% extends 'baseBack.html.twig' %}
+
+{% block title %}
+	Ktebi Home
+{% endblock %}
+
+{% block body %}
+<h4 class="page-title">Catalogue des Livres en Promotion</h4>
+
+
+{% block content %}
+
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-sm-8">
+                                    <a href="{{ path('catalogue_promo_pdf')}}" class="btn btn-danger waves-effect waves-light">
+                                        Catalogue en PDF</a>
+                                </div>  
+                            </div>
+                            <table class="table table-centered table-nowrap table-striped" id="products-datatable">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Reduction</th>
+                                        <th>Date Debut</th>
+                                        <th>Date Fin</th>
+                                        <th>Livres en promotion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for promo in promos %}
+                                    {% if promo.livres is not empty %}
+                                    <tr>
+                                       <td>{{ promo.code }}</td> 
+                                       <td>{{ promo.reduction }}</td>
+                                        <td>{{ promo.dateDebut ? promo.dateDebut|date('Y-m-d') : '' }}</td>
+                                        <td>{{ promo.dateFin ? promo.dateFin|date('Y-m-d') : '' }}</td>
+                                        <td>
+                                                  {% for livre in promo.livres %}
+                                                  <img src="{{ asset(livre.image) }}" width="25" height="30" alt="Votre image"> 
+                                                    {{ livre.libelle}} 
+                                                    </br>
+                                                </br>   
+                                                  {% endfor %}
+                                        </td> 
+                                        
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+            
+        </div> <!-- container -->
+</div>
+
+{% endblock %}
+{% endblock %}

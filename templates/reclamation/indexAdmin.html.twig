@@ -1,0 +1,81 @@
+{% extends 'baseBack.html.twig' %}
+{% block title %}
+	Books Page
+{% endblock %}
+
+
+
+{% block body %}
+<h4 class="page-title">Reclamations</h4>
+{% block content  %}
+
+    <div class="content">
+        <!-- Start Content-->
+        <div class="container-fluid">
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <div class="col-sm-6">
+                                   <form action="{{ path('tri_date') }}" method="get" class="form-group">
+                                        <select name="sort" class="form-control" onchange="this.form.submit()">
+                                            <option >Tri</option>                                           
+                                            <option value="asc">Ascendant</option>
+                                            <option value="desc">Descendant</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            
+                               
+                                  <div class="col-sm-6">
+                                     <form method="get" action="{{ path('app_reclamation_search') }}" >
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="rec" placeholder="Rechercher une reclamation">
+                                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                                    </div>
+                                </form>
+
+                                </div>  
+                            </div>    
+<div class="table-responsive">
+    <table id="table" class="table" >
+        <thead>
+            <tr>
+                <th>Contenu</th>
+                <th>DateRec</th>
+                <th>Etat</th>
+                <th>Img</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+                <td>{{ reclamation.contenu }}</td>
+                <td>{{ reclamation.dateRec ? reclamation.dateRec|date('Y-m-d') : '' }}</td>
+                <td>{{ reclamation.etat }}</td>
+                <td><img src="{{asset(reclamation.img)}}" width="120" height="100" alt="Votre image"></td>
+                <td>
+                    <a href="{{ path('app_reclamation_show_admin', {'idRec': reclamation.idRec}) }}" style=" background-color: black;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;">Détails</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}
+
+{% endblock %}
+

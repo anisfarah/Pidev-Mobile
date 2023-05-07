@@ -1,0 +1,304 @@
+{% extends 'baseFront.html.twig' %}
+{% block title %}
+	Books Page
+{% endblock %}
+{% block body %}
+	<div id="page-content">
+		<div class="collection-header">
+		{% for flashMessage in app.session.flashbag.get('success') %}
+    <div class="alert alert-success">{{ flashMessage }}</div>
+{% endfor %}
+			<div class="collection-hero">
+				<div class="collection-hero__image"><img class="blur-up lazyload" data-src="{{ asset('assets/front/images/books.jpg') }}" src="{{ asset('assets/front/images/books.jpg') }}" alt="Women" title="Women"/></div>
+				<div class="collection-hero__title-wrapper">
+					<h1 class="collection-hero__title page-width">Nos produits</h1>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12 col-sm-12 col-md-3 col-lg-2 sidebar filterbar">
+					<div class="closeFilter d-block d-md-none d-lg-none">
+						<i class="icon icon anm anm-times-l"></i>
+					</div>
+					<div class="sidebar_tags">
+						<div class="sidebar_widget favories filter-widget">
+							<div class="widget-title">
+								<h2>Livre favories</h2>
+							</div>
+							<div class="widget-content">
+								<ul class="sidebar_fav">
+									{% for livre in livresFavoris %}
+										<li class="lvl-1">
+											<a class="site-nav">{{ livre.libelle }}</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+						<div class="sidebar_widget categories filter-widget">
+							<div class="widget-title">
+								<h2>Categories</h2>
+							</div>
+							<div class="widget-content">
+								<ul class="sidebar_categories">
+									{% set categories = [] %}
+									{% for livre in livres %}
+										{% if livre.categorie not in categories %}
+											<li class="lvl-1">
+												<a class="site-nav">{{ livre.categorie }}</a>
+											</li>
+											{% set categories = categories|merge([livre.categorie]) %}
+										{% endif %}
+									{% endfor %}
+								</ul>
+							</div>
+
+						</div>
+
+						<div class="sidebar_widget filterBox filter-widget">
+							<div class="widget-title">
+								<h2>Prix</h2>
+							</div>
+							<form action="#" method="post" class="price-filter">
+								<div id="slider-range" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+									<div class="ui-slider-range ui-widget-header ui-corner-all"></div>
+									<span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+									<span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+								</div>
+								<div class="row">
+									<div class="col-6">
+										<p class="no-margin"><input id="amount" type="text" style="width: 100px;"></p>
+									</div>
+									<div class="col-6 text-right margin-25px-top">
+										<button class="btn btn-secondary btn--small">filter</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!--End Price Filter-->
+						<!--Size Swatches-->
+						<div class="sidebar_widget filterBox filter-widget size-swacthes">
+
+							<div class="filter-color swacth-list"></div>
+						</div>
+						<!--End Size Swatches-->
+						<!--Color Swatches-->
+
+						<!--End Color Swatches-->
+						<!--Brand-->
+							<div class="sidebar_widget filterBox filter-widget"> <div class="widget-title" hidden></div>
+
+						</div>
+						<!--End Brand-->
+
+
+					<!--Banner-->
+						<!--Information-->
+
+					</div>
+				</div>
+
+				<div class="col-12 col-sm-12 col-md-9 col-lg-10 main-col shop-grid-7">
+					<div class="productList">
+						<button type="button" class="btn btn-filter d-block d-md-none d-lg-none">
+							Product Filters</button>
+						<div class="toolbar">
+							<div class="filters-toolbar-wrapper">
+								<div class="row">
+									<div class="col-4 col-md-4 col-lg-4 filters-toolbar__item collection-view-as d-flex justify-content-start align-items-center">
+										<a href="shop-left-sidebar.html" title="Grid View" class="change-view change-view--active">
+											<img src="{{ asset('assets/front/images/grid.jpg') }}" alt="Grid"/>
+										</a>
+										<a href="shop-listview.html" title="List View" class="change-view">
+											<img src="{{ asset('assets/front/images/list.jpg') }}" alt="List"/>
+										</a>
+									</div>
+									<div class="col-4 col-md-4 col-lg-4 text-center filters-toolbar__item filters-toolbar__item--count d-flex justify-content-center align-items-center">
+										<span class="filters-toolbar__product-count">Affichage:
+											{{ livres|length }}</span>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						<div class="grid-products grid--view-items">
+							<div class="row">
+								{% for livre in livres %}
+									<div class="col-6 col-sm-6 col-md-4 col-lg-2 grid-view-item style2 item" data-product-id="{{ livre.getIdLivre() }}">
+										<div class="grid-view_image">
+											<a href="product-accordion.html" class="grid-view-item__link">
+												<img class="grid-view-item__image primary blur-up lazyload" data-src="{{ asset(livre.image) }}" src="{{ asset(livre.image) }}" alt="image" title="product" style="width: 100%;
+																																																																																																																		    max-width: 280px;height:180px">
+												<img class="grid-view-item__image hover blur-up lazyload" data-src="{{ asset(livre.auteur.image ?: 'assets/front/images/biblio.png') }}" src="{{ asset(livre.auteur.image ?: 'assets/front/images/biblio.png') }}" style="width:120px;height:180px" alt="image" title="product">
+											</a>
+											<div class="product-details hoverDetails text-center mobile">
+												<div class="product-name">
+													<a href="#">{{livre.libelle}}</a>
+												</div>
+												<div class="product-price">
+													<span class="price">{{livre.prix}}
+														DT</span>
+												</div>
+												<div class="text-warning mb-2 font-13">
+													{% if livre.langue == 'Français' %}
+														<img src="{{ asset('assets/front/images/france.png') }}" alt="user-image" class="mr-1" height="12">
+														<span class="align-middle">{{livre.langue}}</span>
+													{% elseif livre.langue == 'Arabe' %}
+														<img src="{{ asset('assets/front/images/tunisia.png') }}" alt="user-image" class="mr-1" height="12">
+														<span class="align-middle">{{livre.langue}}</span>
+													{% else %}
+														<img src="{{ asset('assets/front/images/united-kingdom.png') }}" alt="user-image" class="mr-1" height="12">
+														<span class="align-middle">{{livre.langue}}</span>
+													{% endif %}
+												</div>
+												<div class="product-auteur">
+													<span class="auteur">{{livre.auteur.prenom}}
+														{{livre.auteur.nom}}
+													</span>
+												</div>
+												<div class="button-set">
+													<a href="javascript:void(0)" title="Détails" class="quick-view-popup quick-view" data-toggle="modal" data-target="#content_quickview_{{livre.getIdLivre()}}">
+														<i class="icon anm anm-search-plus-r"></i>
+													</a>
+													<form action="#" method="post">
+														<button class="btn btn--secondary cartIcon btn-addto-cart" type="button">
+															<i class="icon anm anm-bag-l"></i>
+														</button>
+													</form>
+													<div class="wishlist-btn">
+														<a class="wishlist add-to-wishlist" href="#" title="Add to Wishlist">
+															<i class="icon anm anm-heart-l"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="modal fade quick-view-popup" id="content_quickview_{{livre.getIdLivre()}}" style="max-width: 800px;																																																			    margin: 1.75rem auto; ">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-body">
+													<div id="ProductSection-product-template" class="product-template__container prstyle1">
+														<div class="product-single">
+															<a href="javascript:void()" data-dismiss="modal" class="model-close-btn pull-right" title="close">
+																<span class="icon icon anm anm-times-l"></span>
+															</a>
+															<div class="row">
+																<div class="col-lg-6 col-md-6 col-sm-12 col-12">
+																	<div class="product-details-img">
+																		<div class="pl-20">
+																			<img src="{{ asset(livre.image) }}" alt="" style="width: 470px; height: 350px;">
+																		</div>
+																	</div>
+																</div>
+																<div class="col-lg-6 col-md-6 col-sm-12 col-12">
+																	<div class="product-single__meta">
+																		<h2 class="product-single__title">Détails livre</h2>
+																		<div class="prInfoRow">
+																			<div class="product-stock">
+																				<span class="instock ">{{livre.libelle}}</span>
+																				<span class="outstock hide">Unavailable</span>
+																			</div>
+																			<br>
+																			<div class="product-sku">
+																				<span class="variant-sku">{{livre.categorie}}</span>
+																			</div>
+																			<br>
+																		</div>
+																		<p class="product-singleprice product-singleprice-product-template">
+																			{% if livre.codePromo is not null %}
+																				<h6 class="text-danger text-uppercase">{{livre.codePromo.reduction}}
+																					% Off</h6>
+																				<h4 class="mb-4">Prix :
+																					<span class="text-muted mr-2">
+																						<del>{{livre.prix}}</del>
+																					</span>
+																					<span class="badge bg-soft-success text-success mb-4">{{ livre.prix * (1 - livre.codePromo.reduction / 100) }}DT</span>
+																				</h4>
+																			{% else %}
+																				<h4 class="mb-4">Prix :
+																					<span class="text-muted mr-2">{{livre.prix}}
+																						DT</span>
+																				{% endif %}
+																			</p>
+																			<div class="product-single__description rte">
+																				<div>
+																					<span style="color:green;">
+																						Description:</span>
+																					{{livre.description}}</div>
+																				<span style="color:green;">Edition:
+																					{{ livre.getDateEdition().format('j F Y') }}</span>
+																			</div>
+																			<form method="post" action="{{ path('app_panier_new', {'livreId': livre.getIdLivre()}) }}">
+																				<div class="product-action clearfix">
+																					<div class="product-form__item--submit">
+																						<button type="submit" name="add" id="ajouterPanier" class="btn product-form__cart-submit">
+																							<span>Ajouter au panier</span>
+																						</button>
+																					</div>
+																				</div>
+																			</form>
+
+
+																			<div class="display-table shareRow">
+																				<div class="display-table-cell">
+																					{% set favoris = app.session.get('favoris', []) %}
+																					{% if livre.getIdLivre() not in favoris|map(livre => livre.getIdLivre()) %}
+																						<div class="wishlist-btn">
+																							<a href="{{ path('ajouter_favoris', {'idLivre': livre.getIdLivre()}) }}" class="wishlist add-to-wishlist" title="Ajouter au favoris">
+																								<i class="icon anm anm-heart-l heart" aria-hidden="true"></i>
+																								<span>Ajouter au favoris</span>
+																							</a>
+																						</div>
+																					{% else %}
+																						<div class="wishlist-btn">
+																							<a href="{{ path('retirer_favoris', {'idLivre': livre.getIdLivre()}) }}" class="wishlist remove-from-wishlist" title="Retirer du favoris">
+																								<i class="fas fa-heart text-danger"></i>
+																								<span>Retirer du favoris</span>
+																							</a>
+																						</div>
+
+																					{% endif %}
+
+																				</div>
+																			</div>
+																		</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		const AjouterPanierButton = document.querySelectorAll('#ajouterPanier');
+AjouterPanierButton.forEach(button => {
+button.addEventListener('click', event => {
+event.preventDefault();
+
+Swal.fire({
+title: 'Produit ajouté!',
+text: 'Votre produit a été ajouté à votre panier.',
+icon: 'success',
+showConfirmButton: false,
+timer: 2000 // 2 secondes de délai
+}).then(() => {
+event.target.closest('form').submit();
+});
+});
+});
+	</script>
+{% endblock %}
