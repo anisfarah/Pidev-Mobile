@@ -37,13 +37,13 @@ public class SidebarClt extends Form {
         
          Button eventsButton = new Button("Events");
         eventsButton.addActionListener(e -> {
-//            new LignePaniersUI(this).show();
+        new ListEventsAdminForm(this).show();
         });
         content.add(eventsButton);
         
          Button recButton = new Button("Reclamations");
         recButton.addActionListener(e -> {
-//            new LignePaniersUI(this).show();
+           new ListReclamationForm().show();
         });
         content.add(recButton);
 

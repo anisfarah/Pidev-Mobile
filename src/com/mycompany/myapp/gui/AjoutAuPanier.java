@@ -7,7 +7,9 @@ package com.mycompany.myapp.gui;
 
 import com.codename1.components.ImageViewer;
 import com.codename1.ui.Button;
+import com.codename1.ui.Command;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
@@ -22,6 +24,7 @@ import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.entities.Livre;
 import com.mycompany.myapp.services.ServicePanier;
+import com.mycompany.myapp.services.ServiceReclamation;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -30,57 +33,63 @@ import java.util.ArrayList;
  * @author Pc Anis
  */
 public class AjoutAuPanier extends Form {
-        Form current;
 
+    Form current;
 
     private Container bookContainer;
 
-    public AjoutAuPanier( ) {
-current = this;
+    public AjoutAuPanier() {
+        current = this;
 
-        
-    // create a new button for the cart icon
-    Button cartButton = new Button(FontImage.MATERIAL_SHOPPING_CART);
-    cartButton.addActionListener(e -> {
-        // navigate to the cart items view
-        new LignePaniersUI(current).show();
-    });
+        // create a new button for the cart icon
+        Button cartButton = new Button(FontImage.MATERIAL_SHOPPING_CART);
+        cartButton.addActionListener(e -> {
+            // navigate to the cart items view
+            new LignePaniersUI(current).show();
+        });
 
-    // add the cart button to the toolbar
+        // add the cart button to the toolbar
         Toolbar myToolbar = new Toolbar();
-    setToolBar(myToolbar);
-    myToolbar.addCommandToRightBar("", FontImage.createMaterial(FontImage.MATERIAL_SHOPPING_CART, UIManager.getInstance().getComponentStyle("TitleCommand")), e -> {
-        // navigate to the cart items view
-        new LignePaniersUI(current).show();
-    });
-    myToolbar.addCommandToLeftBar("", FontImage.createMaterial(FontImage.MATERIAL_MENU, UIManager.getInstance().getComponentStyle("TitleCommand")), e -> {
+        setToolBar(myToolbar);
+        myToolbar.addCommandToRightBar("", FontImage.createMaterial(FontImage.MATERIAL_SHOPPING_CART, UIManager.getInstance().getComponentStyle("TitleCommand")), e -> {
+            // navigate to the cart items view
+            new LignePaniersUI(current).show();
+        });
+        myToolbar.addCommandToLeftBar("", FontImage.createMaterial(FontImage.MATERIAL_MENU, UIManager.getInstance().getComponentStyle("TitleCommand")), e -> {
             new SidebarClt().show();
         });
-    setTitle("Livres");
+        setTitle("Livres");
 
-    bookContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-    add(bookContainer);
+        bookContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+        add(bookContainer);
 
-    ServicePanier sp = new ServicePanier();
-    ArrayList<Livre> livres = sp.getAllALivres();
-    for (Livre livre : livres) {
-        Container singleBook = new Container(new BorderLayout());
-        bookContainer.add(singleBook);
+        ServicePanier sp = new ServicePanier();
+        ArrayList<Livre> livres = sp.getAllALivres();
+        for (Livre livre : livres) {
+            Container singleBook = new Container(new BorderLayout());
+            bookContainer.add(singleBook);
 
-        Container bookDetailsContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
-        singleBook.add(BorderLayout.EAST, bookDetailsContainer);
+            Container bookDetailsContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+            singleBook.add(BorderLayout.EAST, bookDetailsContainer);
 
-        Button addToCartButton = new Button("Ajouter au panier");
-        addToCartButton.addActionListener(e -> {
-            sp.AddToCart(livre.getId());
-        });
-        bookDetailsContainer.add(addToCartButton);
+            Button addToCartButton = new Button("Ajouter au panier");
+            addToCartButton.addActionListener(e -> {
 
-        // Display the book title and price
-        Label title = new Label(livre.getLibelle());
-        Label price = new Label(String.valueOf(livre.getPrix()) + " DT");
-        singleBook.add(BorderLayout.CENTER, BoxLayout.encloseY(title, price));
+                if (sp.AddToCart(livre.getId())) {
+                    Dialog.show("ERROR", "Livre non ajouté au panier", new Command("OK"));
+
+                } else {
+                    Dialog.show("Success", "Livre ajouté au panier: " + livre.getLibelle(), new Command("OK"));
+                }
+
+            });
+            bookDetailsContainer.add(addToCartButton);
+
+            // Display the book title and price
+            Label title = new Label(livre.getLibelle());
+            Label price = new Label(String.valueOf(livre.getPrix()) + " DT");
+            singleBook.add(BorderLayout.CENTER, BoxLayout.encloseY(title, price));
+        }
     }
-}
 
 }

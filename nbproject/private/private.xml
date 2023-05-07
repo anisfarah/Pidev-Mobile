@@ -4,7 +4,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/shai/dev/CodenameOne/NBPlugin/Piidev-MOBILE/build.xml</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/gui/ListReclamationForm.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/services/ServiceReclamation.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/services/ServiceLivre.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/gui/AddEventForm.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/gui/LignePaniersUI.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/services/PromoService.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/gui/AjoutAuPanier.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/gui/SidebarClt.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/gui/ListEventsAdminForm.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/services/ServiceEvent.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/entities/Promo.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/gui/AjouterReclamationForm.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/entities/Reclamation.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/entities/Event.java</file>
+            <file>file:/C:/Mobile/Piidev-MOBILE/src/com/mycompany/myapp/entities/User.java</file>
         </group>
     </open-files>
 </project-private>

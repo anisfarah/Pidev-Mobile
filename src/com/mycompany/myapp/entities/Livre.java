@@ -5,6 +5,8 @@
  */
 package com.mycompany.myapp.entities;
 
+import java.util.Date;
+
 
 /**
  *
@@ -16,7 +18,7 @@ public class Livre {
     private String libelle;
     private String description;
     private String editeur;
-    private String date_edition;
+    private Date date_edition;
     private String categorie;
     private float prix;
     private String langue;
@@ -31,7 +33,7 @@ public class Livre {
         this.id = id;
     }
 
-    public Livre(int id, String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, int promo, int auteur, String image) {
+    public Livre(int id, String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, int promo, int auteur, String image) {
         this.id = id;
         this.libelle = libelle;
         this.description = description;
@@ -45,7 +47,7 @@ public class Livre {
         this.image = image;
     }
 
-    public Livre(String libelle, String description, String editeur, String date_edition, String categorie, float prix, String langue, int promo, int auteur, String image) {
+    public Livre(String libelle, String description, String editeur, Date date_edition, String categorie, float prix, String langue, int promo, int auteur, String image) {
         this.libelle = libelle;
         this.description = description;
         this.editeur = editeur;
@@ -90,11 +92,11 @@ public class Livre {
         this.editeur = editeur;
     }
 
-    public String getDate_edition() {
+    public Date getDate_edition() {
         return date_edition;
     }
 
-    public void setDate_edition(String date_edition) {
+    public void setDate_edition(Date date_edition) {
         this.date_edition = date_edition;
     }
 

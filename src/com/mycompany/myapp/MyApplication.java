@@ -13,6 +13,7 @@ import com.codename1.ui.Toolbar;
 import java.io.IOException;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.io.NetworkEvent;
+import com.mycompany.myapp.gui.SidebarAdmin;
 import com.mycompany.myapp.gui.SidebarClt;
 
 /**
@@ -52,7 +53,7 @@ public class MyApplication {
             current.show();
             return;
         }
-        SidebarClt sideBar=new SidebarClt();
+        SidebarAdmin sideBar=new SidebarAdmin();
         sideBar.show(
         );
     }
