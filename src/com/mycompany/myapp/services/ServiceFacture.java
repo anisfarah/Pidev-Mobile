@@ -16,6 +16,7 @@ import com.codename1.ui.events.ActionListener;
 import com.mycompany.myapp.entities.Facture;
 import com.mycompany.myapp.entities.Livre;
 import com.mycompany.myapp.utils.Statics;
+import com.mycompany.myapp.utils.UserSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,7 +93,9 @@ public class ServiceFacture {
     }
 
     public ArrayList<Facture> getAllFactures() {
-        String url = Statics.BASE_URL + "/MesFacturesJson";
+                        int id = UserSession.instance.getU().getId();
+
+        String url = Statics.BASE_URL + "/MesFacturesJson/"+id;
         System.out.println(url);
         req.setUrl(url);
         req.setPost(false);
@@ -163,7 +166,9 @@ public class ServiceFacture {
     }
 
     public ArrayList<Livre> getDetailsFacturesClient(int idFacture) {
-        String url = Statics.BASE_URL + "/detailsFacturesJson/" + idFacture ;
+                        int id = UserSession.instance.getU().getId();
+
+        String url = Statics.BASE_URL + "/detailsFacturesJson/" + idFacture+"/"+id ;
         System.out.println(url);
         req.setUrl(url);
         req.setPost(false);
@@ -176,6 +181,22 @@ public class ServiceFacture {
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
         return Livres;
+    }
+    
+      public Boolean AjouterFacture(int idPanier) {
+                                  int id = UserSession.instance.getU().getId();
+
+        String url = Statics.BASE_URL + "/ajouterJson/" + idPanier+"/"+id;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
     }
 
 }

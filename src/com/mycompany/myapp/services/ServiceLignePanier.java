@@ -13,6 +13,7 @@ import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.myapp.entities.Livre;
 import com.mycompany.myapp.utils.Statics;
+import com.mycompany.myapp.utils.UserSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +105,9 @@ public class ServiceLignePanier {
     }
 
     public ArrayList<Livre> getAllALivresPanier() {
-        String url = Statics.BASE_URL + "/lignepanier/json";
+                int id = UserSession.instance.getU().getId();
+
+        String url = Statics.BASE_URL + "/lignepanier/json/"+id;
         System.out.println(url);
         req.setUrl(url);
         req.setPost(false);

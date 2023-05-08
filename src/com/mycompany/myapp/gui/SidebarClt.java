@@ -10,12 +10,14 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.util.Resources;
 
 /**
  *
  * @author Pc Anis
  */
 public class SidebarClt extends Form {
+    private  Resources theme;
 
     public SidebarClt() {
         setTitle("Menu");
@@ -52,6 +54,12 @@ public class SidebarClt extends Form {
             new FacturesCltUI(this).show();
         });
         content.add(factureButton);
+        
+        Button LogoutButton = new Button("Se déconnecter");
+        LogoutButton.addActionListener(e -> {
+          new SignInForm(theme).show();
+        });
+        content.add(LogoutButton);
 
         add(BorderLayout.CENTER, content);
     }

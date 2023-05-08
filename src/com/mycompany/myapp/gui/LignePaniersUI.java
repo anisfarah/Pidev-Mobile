@@ -32,6 +32,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.UIManager;
 import com.mycompany.myapp.entities.Livre;
+import com.mycompany.myapp.services.ServiceFacture;
 import com.mycompany.myapp.services.ServiceLignePanier;
 import com.mycompany.myapp.services.ServicePanier;
 import com.mycompany.myapp.utils.Statics;
@@ -153,17 +154,22 @@ public class LignePaniersUI extends Form {
             }
 
         }
-             
+        Button addInvoiceButton = new Button("Ajouter facture");
+        add(addInvoiceButton);
+        addInvoiceButton.getAllStyles().setAlignment(Component.CENTER);
+        addInvoiceButton.addActionListener(evt -> {
+            Livre livreP = livres.get(0);
+                    int idPanier = livreP.getIdPanier();
+                    ServiceFacture sf=new ServiceFacture();
+                    sf.AjouterFacture(idPanier);
+                    Dialog.show("Success","Facture ajoutée avec succées",new Command("OK"));
+                    new SidebarClt().show();
+
+            
+        });
+
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK,
                 e -> previous.showBack());
-  
-
-        Label arrowLabel = new Label(FontImage.createMaterial(FontImage.MATERIAL_KEYBOARD_ARROW_DOWN, UIManager.getInstance().getComponentStyle("Label")));
-Container arrowContainer = new Container(new BorderLayout());
-arrowContainer.add(BorderLayout.SOUTH, arrowLabel);
-getContentPane().add(FlowLayout.encloseBottom(arrowContainer));
-
-        
 
         setTitle("Panier");
     }

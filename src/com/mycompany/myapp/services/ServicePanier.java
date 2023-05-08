@@ -13,6 +13,7 @@ import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.myapp.entities.Livre;
 import com.mycompany.myapp.utils.Statics;
+import com.mycompany.myapp.utils.UserSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +153,10 @@ public class ServicePanier {
    
    
     public Boolean AddToCart(int livreId) {
-        String url = Statics.BASE_URL + "/panier/newJson/" + livreId;
+        
+        int id = UserSession.instance.getU().getId();
+        System.err.println( UserSession.instance.getU().getId());
+        String url = Statics.BASE_URL + "/panier/newJson/" + livreId+"/"+id;
         System.out.println(url);
         req.setUrl(url);
         req.setPost(false);

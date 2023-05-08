@@ -10,14 +10,17 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.util.Resources;
 
 /**
  *
  * @author Pc Anis
  */
 public class SidebarAdmin extends Form{
+            private  Resources theme;
 
     public SidebarAdmin() {
+
         setTitle("Menu Admin");
         setLayout(new BorderLayout());
 
@@ -39,6 +42,13 @@ public class SidebarAdmin extends Form{
         });
         content.add(eventsButton);
         
+        
+         Button themesButton = new Button("Thèmes");
+        themesButton.addActionListener(e -> {
+            new ListThemesForm(this).show();
+        });
+        content.add(themesButton);
+        
          Button recButton = new Button("Reclamations");
         recButton.addActionListener(e -> {
         });
@@ -54,6 +64,12 @@ public class SidebarAdmin extends Form{
         factureButton.addActionListener(e -> {
         });
         content.add(factureButton);
+        
+        Button LogoutButton = new Button("Se déconnecter");
+        LogoutButton.addActionListener(e -> {
+          new SignInForm(theme).show();
+        });
+        content.add(LogoutButton);
 
         add(BorderLayout.CENTER, content);
     }

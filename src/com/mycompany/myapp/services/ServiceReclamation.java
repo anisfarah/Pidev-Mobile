@@ -16,6 +16,7 @@ import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.events.ActionListener;
 import com.mycompany.myapp.entities.Reclamation;
 import com.mycompany.myapp.utils.Statics;
+import com.mycompany.myapp.utils.UserSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import java.util.Map;
  * @author MSI
  */
 public class ServiceReclamation {
+
     public ArrayList<Reclamation> recs;
 
     public static ServiceReclamation instance = null;
@@ -38,15 +40,12 @@ public class ServiceReclamation {
         req = new ConnectionRequest();
     }
 
-    public static ServiceReclamation getInstance()
-    {
-        if(instance==null)
-        {
+    public static ServiceReclamation getInstance() {
+        if (instance == null) {
             instance = new ServiceReclamation();
         }
-        return instance ;
+        return instance;
     }
-
 
     public boolean addReclamation(Reclamation r) {
 
@@ -56,10 +55,12 @@ public class ServiceReclamation {
         Date date = r.getDateRec();
         int iduser = r.getIdUser();
         int idtype = r.getIdType();
-        
-        
+
+        int id = UserSession.instance.getU().getId();
+
 //hehy
-        String url = Statics.BASE_URL + "/rec/newJSON?contenu=" + contenu ;
+        String url = Statics.BASE_URL + "/rec/newJSON?contenu=" + contenu + "&idUser=" + id;
+        ;
         System.err.println(url);
 
         req.setUrl(url);
@@ -90,16 +91,13 @@ public class ServiceReclamation {
                 r.setIdRec((int) id);
                 r.setContenu((String) obj.get("contenu".toString()));
                 String dateFacString = obj.get("dateRec").toString();
-                    DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd"); // Input format of the date string
-                    Date dateRec = inputFormat.parse(dateFacString); // Convert dateFacString to a Date object
+                DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd"); // Input format of the date string
+                Date dateRec = inputFormat.parse(dateFacString); // Convert dateFacString to a Date object
 
                 r.setDateRec(dateRec);
                 r.setEtat((String) obj.get("etat".toString()));
                 r.setImg((String) obj.get("img".toString()));
-                
-                
-                
-            
+
                 recs.add(r);
             }
 
@@ -109,8 +107,8 @@ public class ServiceReclamation {
         return recs;
     }
 
-    public ArrayList<Reclamation> getAllReclamation() {
-        String url = Statics.BASE_URL + "/rec/front1";
+    public ArrayList<Reclamation> Search(String s) {
+        String url = Statics.BASE_URL + "/rec/searchJson?c=" + s;
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -119,7 +117,7 @@ public class ServiceReclamation {
                 try {
                     recs = parseReclamattion(new String(req.getResponseData()));
                 } catch (ParseException ex) {
-                    
+
                 }
                 req.removeResponseListener(this);
             }
@@ -127,24 +125,44 @@ public class ServiceReclamation {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return recs;
     }
-    
-     public boolean  deleteReclamation(int id){
-       String url = Statics.BASE_URL + "/rec/deleteJSON/" +id;
+
+    public ArrayList<Reclamation> getAllReclamation() {
+                int id = UserSession.instance.getU().getId();
+
+        String url = Statics.BASE_URL + "/rec/front1?idUser="+id;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    recs = parseReclamattion(new String(req.getResponseData()));
+                } catch (ParseException ex) {
+
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return recs;
+    }
+
+    public boolean deleteReclamation(int id) {
+        String url = Statics.BASE_URL + "/rec/deleteJSON/" + id;
 
         req.setUrl(url);
 
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-               
+
                 req.removeResponseListener(this);
             }
 
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
-      
-      
-      }
-    
+
+    }
+
 }

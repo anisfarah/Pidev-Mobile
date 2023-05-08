@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.myapp.services;
+package com.mycompany.myapp.gui;
 
 /**
  *
  * @author Pc Anis
  */
-public class ServiceLivre {
+public class AddThemeForm {
     
 }
