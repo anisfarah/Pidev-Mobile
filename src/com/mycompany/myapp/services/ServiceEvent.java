@@ -94,18 +94,15 @@ public class ServiceEvent {
         try {
             events = new ArrayList<>();
             JSONParser j = new JSONParser();
-            Map<String, Object> promosListJson
+            Map<String, Object> eventsListJson
                     = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
 
-            List<Map<String, Object>> list = (List<Map<String, Object>>) promosListJson.get("root");
+            List<Map<String, Object>> list = (List<Map<String, Object>>) eventsListJson.get("root");
             for (Map<String, Object> obj : list) {
                 Event p = new Event();
                 float id = Float.parseFloat(obj.get("idEvent").toString());
                 p.setId((int) id);
                 p.setPrix(((int) Float.parseFloat(obj.get("prixEvent").toString())));
-//                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//                Date dateDebut = format.parse(obj.get("dateDebut").toString());
-//                p.setDate_debut(dateDebut);
                 p.setDescription(obj.get("descEvent").toString());
                 p.setLieu(obj.get("lieuEvent").toString());
                  p.setNomevent(obj.get("nomEvent").toString());

@@ -39,6 +39,7 @@ public class SidebarAdmin extends Form{
         
          Button eventsButton = new Button("Events");
         eventsButton.addActionListener(e -> {
+            new ListEventsAdminForm(this).show();
         });
         content.add(eventsButton);
         

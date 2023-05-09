@@ -81,12 +81,22 @@ public class LignePaniersUI extends Form {
         });
 
         ArrayList<Livre> lignePaniers = slp.getAllALivresPanier();
+        
+        
+        
         if (livres.isEmpty()) {
             Label emptyCartLabel = new Label("          Le panier est vide pour le moment");
             emptyCartLabel.getAllStyles().setMarginTop(Display.getInstance().getDisplayHeight() / 3);
             bookContainer.add(emptyCartLabel);
         } else {
             for (Livre livre : livres) {
+                if ( livre.getIdPanier() ==0 ) {
+                    Label emptyCartLabel = new Label("          Le panier est vide pour le moment");
+            emptyCartLabel.getAllStyles().setMarginTop(Display.getInstance().getDisplayHeight() / 3);
+            bookContainer.add(emptyCartLabel);
+                    
+                    
+                }
                 Container singleBook = new Container(new BorderLayout());
                 bookContainer.add(singleBook);
                 Button crossButton = new Button();
@@ -152,9 +162,7 @@ public class LignePaniersUI extends Form {
                 bookDetailsContainer.add(quantityContainer);
 
             }
-
-        }
-        Button addInvoiceButton = new Button("Ajouter facture");
+Button addInvoiceButton = new Button("Ajouter facture");
         add(addInvoiceButton);
         addInvoiceButton.getAllStyles().setAlignment(Component.CENTER);
         addInvoiceButton.addActionListener(evt -> {
@@ -168,6 +176,8 @@ public class LignePaniersUI extends Form {
             
         });
 
+        }
+        
         getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK,
                 e -> previous.showBack());
 

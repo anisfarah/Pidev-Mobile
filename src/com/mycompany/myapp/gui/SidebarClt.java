@@ -39,7 +39,7 @@ public class SidebarClt extends Form {
         
          Button eventsButton = new Button("Events");
         eventsButton.addActionListener(e -> {
-        new ListEventsAdminForm(this).show();
+        new ListEventsForm(this).show();
         });
         content.add(eventsButton);
         
